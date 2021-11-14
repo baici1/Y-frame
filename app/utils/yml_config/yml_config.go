@@ -4,10 +4,12 @@ import (
 	"Y-frame/app/global/consts"
 	"Y-frame/app/global/g_errors"
 	"Y-frame/app/global/variable"
-	"github.com/fsnotify/fsnotify"
-	"github.com/spf13/viper"
+	"Y-frame/app/utils/yml_config/ymlconfig_interf"
 	"log"
 	"time"
+
+	"github.com/fsnotify/fsnotify"
+	"github.com/spf13/viper"
 )
 
 var lastChangeTime time.Time
@@ -17,7 +19,7 @@ func init() {
 }
 
 //创建yaml配置工厂
-func CreateYamlFactory(fileName ...string) *YmlConfig {
+func CreateYamlFactory(fileName ...string) ymlconfig_interf.YmlConfigInterf {
 	yamlConfig := viper.New()
 	//配置文件目录
 	yamlConfig.AddConfigPath(variable.BasePath + "/config")
@@ -35,14 +37,14 @@ func CreateYamlFactory(fileName ...string) *YmlConfig {
 		log.Fatal(g_errors.ErrorsConfigInitFail + err.Error())
 	}
 	//返回全局配置对象
-	return &YmlConfig{
+	return &ymlConfig{
 		yamlConfig,
 	}
 
 }
 
 //配置文件对象
-type YmlConfig struct {
+type ymlConfig struct {
 	Viper *viper.Viper
 }
 
@@ -51,17 +53,63 @@ type YmlConfig struct {
 // 设置一个内部全局变量，记录配置文件变化时的时间点，如果两次回调事件事件差小于1秒，我们认为是第二次回调事件，而不是人工修改配置文件
 // 这样就避免了 vipver 包的这个bug
 //监听文件变化
-func (y *YmlConfig) ConfigFileChangeListen() {
+func (y *ymlConfig) ConfigFileChangeListen() {
 	y.Viper.OnConfigChange(func(changeEvent fsnotify.Event) {
 		//记录配置文件变化时的时间点，如果两次回调事件事件差小于1秒，
-		if time.Now().Sub(lastChangeTime).Seconds() >= 1 {
+		if time.Since(lastChangeTime).Seconds() >= 1 {
 			//当文件操作是write就重置时间。
 			if changeEvent.Op.String() == "WRITE" {
-				variable.ZapLog.Info(consts.YammlConfigChange)
+				variable.ZapLog.Info(consts.YamlConfigChange)
 				lastChangeTime = time.Now()
 			}
 		}
 	})
 	//监听文件变化
 	y.Viper.WatchConfig()
+}
+
+// Get 一个原始值
+func (y *ymlConfig) Get(keyName string) interface{} {
+	return y.Viper.Get(keyName)
+}
+
+// GetString
+func (y *ymlConfig) GetString(keyName string) string {
+	return y.Viper.GetString(keyName)
+
+}
+
+// GetBool
+func (y *ymlConfig) GetBool(keyName string) bool {
+	return y.Viper.GetBool(keyName)
+}
+
+// GetInt
+func (y *ymlConfig) GetInt(keyName string) int {
+	return y.Viper.GetInt(keyName)
+}
+
+// GetInt32
+func (y *ymlConfig) GetInt32(keyName string) int32 {
+	return y.Viper.GetInt32(keyName)
+}
+
+// GetInt64
+func (y *ymlConfig) GetInt64(keyName string) int64 {
+	return y.Viper.GetInt64(keyName)
+}
+
+// float64
+func (y *ymlConfig) GetFloat64(keyName string) float64 {
+	return y.Viper.GetFloat64(keyName)
+}
+
+// GetDuration
+func (y *ymlConfig) GetDuration(keyName string) time.Duration {
+	return y.Viper.GetDuration(keyName)
+}
+
+// GetStringSlice
+func (y *ymlConfig) GetStringSlice(keyName string) []string {
+	return y.Viper.GetStringSlice(keyName)
 }

@@ -4,5 +4,5 @@ package consts
 
 const (
 	//配置文件发生变化
-	YammlConfigChange = "配置文件发生了变化"
+	YamlConfigChange = "配置文件发生了变化"
 )

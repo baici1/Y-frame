@@ -3,8 +3,8 @@ package bootstrap
 import (
 	"Y-frame/app/global/g_errors"
 	"Y-frame/app/global/variable"
-	_ "Y-frame/app/global/variable"
 	"Y-frame/app/service/sys_log_hook"
+	"Y-frame/app/utils/gorm_v2"
 	"Y-frame/app/utils/yml_config"
 	"Y-frame/app/utils/zap_factory"
 	"log"
@@ -31,8 +31,13 @@ func init() {
 	// 5.初始化全局日志句柄，并载入日志钩子处理函数
 	variable.ZapLog = zap_factory.CreateZapFactory(sys_log_hook.ZapLogHandler)
 	// 6.根据配置初始化 gorm mysql 全局 *gorm.Db
-	// 根据配置初始化 gorm sqlserver 全局 *gorm.Db
-	// 根据配置初始化 gorm postgresql 全局 *gorm.Db
+	if variable.ConfigYml.GetInt("Gormv2.Mysql.IsInitGolobalGormMysql") == 1 {
+		if db, err := gorm_v2.GetOneMysqlClient(); err != nil {
+			log.Fatal(g_errors.ErrorsGormInitFail + err.Error())
+		} else {
+			variable.GormDbMysql = db
+		}
+	}
 	// 7.雪花算法全局变量
 	// 8.websocket Hub中心启动
 	// 9.casbin 依据配置文件设置参数(IsInit=1)初始化
