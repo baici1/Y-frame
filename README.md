@@ -24,3 +24,5 @@
 
 > 4.配置数据库gorm
 
+[数据库管理](https://www.guide.yangdiy.cn/#/%E9%A1%B9%E7%9B%AE%E7%9B%B8%E5%85%B3/%E6%A1%86%E6%9E%B6%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/GinSkeleton/%E6%95%B0%E6%8D%AE%E5%BA%93)
+

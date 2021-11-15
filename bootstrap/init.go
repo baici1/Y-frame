@@ -5,6 +5,7 @@ import (
 	"Y-frame/app/global/variable"
 	"Y-frame/app/service/sys_log_hook"
 	"Y-frame/app/utils/gorm_v2"
+	"Y-frame/app/utils/snow_flake"
 	"Y-frame/app/utils/yml_config"
 	"Y-frame/app/utils/zap_factory"
 	"log"
@@ -39,6 +40,7 @@ func init() {
 		}
 	}
 	// 7.雪花算法全局变量
+	variable.SnowFlake = snow_flake.CreateSnowFlakeFactory()
 	// 8.websocket Hub中心启动
 	// 9.casbin 依据配置文件设置参数(IsInit=1)初始化
 }

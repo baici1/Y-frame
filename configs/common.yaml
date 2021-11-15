@@ -46,3 +46,6 @@ Gormv2:
       traceStr: "[traceStr] %s [%.3fms] [rows:%v] %s\n"
       traceWarnStr: "[traceWarn] %s %s [%.3fms] [rows:%v] %s\n"
       traceErrStr: "[traceErr] %s %s [%.3fms] [rows:%v] %s\n"
+
+SnowFlake:
+  SnowFlakeMachineId: 2               #如果本项目同时部署在多台机器，并且需要同时使用该算法，请为每一台机器设置不同的ID，区间范围: [0,1023]

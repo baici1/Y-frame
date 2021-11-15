@@ -2,6 +2,7 @@ package variable
 
 import (
 	"Y-frame/app/global/g_errors"
+	"Y-frame/app/utils/snow_flake/snow_flake_interf"
 	"Y-frame/app/utils/yml_config/ymlconfig_interf"
 	"log"
 	"os"
@@ -21,6 +22,8 @@ var (
 	ZapLog *zap.Logger //全局日志指针
 	//全局数据库
 	GormDbMysql *gorm.DB //Mysql
+	//雪花算法
+	SnowFlake snow_flake_interf.InterfaceSnowFlake
 )
 
 func init() {
