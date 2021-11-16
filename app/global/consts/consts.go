@@ -14,4 +14,7 @@ const (
 	SequenceMask   = int64(-1 ^ (-1 << SequenceBits)) //
 	MachineIdShift = SequenceBits                     //机器id左移位数
 	TimestampShift = SequenceBits + MachineIdBits     //时间戳左移位数
+
+	//系统参数
+	ProcessKilled = "系统退出，信号是："
 )
