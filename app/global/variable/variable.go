@@ -16,6 +16,8 @@ import (
 
 var (
 	BasePath string //定义项目的根目录
+	//系统相关
+	DateFormat = "2006-01-02 15:04:05" //  配置文件键值缓存时，键的前缀
 	//配置文件
 	ConfigYml ymlconfig_interf.YmlConfigInterf //全局普通配置文件指针
 	//日志文件

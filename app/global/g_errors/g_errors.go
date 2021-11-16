@@ -3,6 +3,10 @@ package g_errors
 const (
 	//系统错误
 	ErrorBasePath = "初始化项目跟目录失败"
+	//容器相关
+	ErrorsContainerKeyAlreadyExists string = "该键已经注册在容器中了"
+	//验证器相关
+	ErrorsValidatorNotExists string = "验证器不存在"
 	//配置文件
 	ErrorsConfigInitFail      = "初始化配置文件发生错误"
 	ErrorsConfigYamlNotExists = "配置文件不存在"

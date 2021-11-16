@@ -22,7 +22,7 @@ func init() {
 func CreateYamlFactory(fileName ...string) ymlconfig_interf.YmlConfigInterf {
 	yamlConfig := viper.New()
 	//配置文件目录
-	yamlConfig.AddConfigPath(variable.BasePath + "/config")
+	yamlConfig.AddConfigPath(variable.BasePath + "/configs")
 	//设置需要读取的文件名：默认是common
 	if len(fileName) == 0 {
 		yamlConfig.SetConfigName("common")

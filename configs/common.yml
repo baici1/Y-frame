@@ -27,7 +27,7 @@ Gormv2:
     SlowThreshold: 30            # 慢 SQL 阈值(sql执行时间超过此时间单位（秒），就会触发系统日志记录)
     Write:  #原本这里打算设置读写分离，但是场景比较特定，需要的自己去改。如果把场景全部都概括了的话，那么这个就显得很臃肿。
       Host: "127.0.0.1"   #地址
-      DataBase: "db_goskeleton"  #数据库名称
+      DataBase: "db_y_frame"  #数据库名称
       Port: 3306  #端口
       Prefix: "tb_"  #前缀
       User: "root"  #用户名称
@@ -49,3 +49,5 @@ Gormv2:
 
 SnowFlake:
   SnowFlakeMachineId: 2               #如果本项目同时部署在多台机器，并且需要同时使用该算法，请为每一台机器设置不同的ID，区间范围: [0,1023]
+
+#打包配置
