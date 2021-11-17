@@ -2,7 +2,6 @@ package model
 
 import (
 	"Y-frame/app/global/variable"
-	"log"
 
 	"go.uber.org/zap"
 )
@@ -24,9 +23,10 @@ type UsersModel struct {
 
 // 用户登录,
 func (u *UsersModel) Login(userName string, pass string) *UsersModel {
+	//sql语句
 	sql := "select id, user_name,real_name,pass,phone  from tb_users where  user_name=?  limit 1"
+	//查找满足要求的第一个
 	result := u.Raw(sql, userName).First(u)
-	log.Println(u)
 	if result.Error != nil {
 		// 账号密码验证失败
 		variable.ZapLog.Error("根据账号查询单条记录出错:", zap.Error(result.Error))

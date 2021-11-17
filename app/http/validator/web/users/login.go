@@ -15,7 +15,7 @@ type Login struct {
 
 }
 
-//验证器
+//login 验证器
 func (l Login) CheckParams(c *gin.Context) {
 	//获取参数值，进行初步的验证规则
 	if err := c.ShouldBind(&l); err != nil {
