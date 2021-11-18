@@ -1,6 +1,7 @@
 package token
 
 import (
+	"Y-frame/app/global/consts"
 	"Y-frame/app/global/variable"
 	"Y-frame/app/http/middleware/g_jwt"
 	"time"
@@ -80,11 +81,23 @@ func (u *userToken) RefreshToken(oldToken string) (newToken string, flag bool) {
 
 }
 
-//判断token是否过期
-//func (u *userToken) IsEffect(token string) bool {
-//	if customClaims, err := u.userJWT.ParseJWT(token); err != nil {
-//		return false
-//	}else {
-//
-//	}
-//}
+//IsEffect
+/* @Description: 判断token是否失效
+ * @receiver u
+ * @param token
+ * @return *g_jwt.CustomClaims
+ * @return int
+ */
+func (u *userToken) IsEffect(token string) (*g_jwt.CustomClaims, int) {
+	if customClaims, err := u.userJWT.ParseJWT(token); err != nil {
+		return nil, consts.JwtTokenInvalid
+	} else {
+		//是否在有效期
+		if time.Now().Unix()-customClaims.ExpiresAt < 0 {
+			//还在有效期内
+			return customClaims, consts.JwtTokenOK
+		} else {
+			return customClaims, consts.JwtTokenExpired
+		}
+	}
+}

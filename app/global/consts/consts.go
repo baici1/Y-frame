@@ -17,4 +17,24 @@ const (
 
 	//系统参数
 	ProcessKilled = "系统退出，信号是："
+
+	//token状态码
+	JwtTokenOK              int    = 200100  //token有效
+	JwtTokenInvalid         int    = -400100 //无效的token
+	JwtTokenInvalidMsg      string = "无效的oken"
+	JwtTokenExpired         int    = -400101 //过期的token
+	JwtTokenFormatErrCode   int    = -400102 //提交的 token 格式错误
+	JwtTokenFormatErrMsg    string = "token格式错误"
+	JwtTokenMustValidMsg    string = "token为必填项,请在请求header部分提交!" //提交的 token 格式错误
+	JwtTokenRefreshFailCode int    = -400200
+	JwtTokenRefreshFailMsg  string = "token刷新失败，请重新登录"
+
+	//response状态码
+	CurdStatusOkCode  int    = 200 //请求成功
+	CurdStatusOkMsg   string = "请求成功"
+	CurdLoginFailCode int    = -400100
+	CurdLoginFailMsg  string = "登录失败"
+	//表单验证
+	ValidatorParamsCheckFailCode int    = -400300
+	ValidatorParamsCheckFailMsg  string = "参数校验失败"
 )
