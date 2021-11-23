@@ -21,12 +21,14 @@ type Login struct {
 func (l Login) CheckParams(c *gin.Context) {
 	//获取参数值，进行初步的验证规则
 	if err := c.ShouldBind(&l); err != nil {
-		response.Fail(c, http.StatusBadRequest, consts.ValidatorParamsCheckFailCode, consts.ValidatorParamsCheckFailMsg)
+		response.ValidatorError(c, http.StatusBadRequest, consts.ValidatorParamsCheckFailCode, consts.ValidatorParamsCheckFailMsg, err)
 		return
 	}
 	//将参数值值绑定到context上下文中
-	extraAddBindDataContext := data_transfer.DataAddContext(l, "form", c)
+	extraAddBindDataContext := data_transfer.DataAddContext(l, consts.ValidatorPrefix, c)
 	if extraAddBindDataContext != nil {
 		(&web.Users{}).Login(extraAddBindDataContext)
+	} else {
+		response.ErrorsSystem(c, "login 验证器参数 json 化失败")
 	}
 }

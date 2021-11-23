@@ -16,7 +16,9 @@ const (
 	TimestampShift = SequenceBits + MachineIdBits     //时间戳左移位数
 
 	//系统参数
-	ProcessKilled = "系统退出，信号是："
+	ProcessKilled                  = "系统退出，信号是："
+	ServerOccurredErrorCode int    = -500100
+	ServerOccurredErrorMsg  string = "服务器内部发生代码执行错误, "
 
 	//token状态码
 	JwtTokenOK              int    = 200100  //token有效
@@ -35,6 +37,7 @@ const (
 	CurdLoginFailCode int    = -400100
 	CurdLoginFailMsg  string = "登录失败"
 	//表单验证
+	ValidatorPrefix              string = "Form_Validator_" //表单验证前缀
 	ValidatorParamsCheckFailCode int    = -400300
 	ValidatorParamsCheckFailMsg  string = "参数校验失败"
 )

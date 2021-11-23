@@ -8,5 +8,5 @@ import (
 func WebRegisterValidator() {
 	containers := container.CreateContainersFactory()
 
-	containers.Set("Login", users.Login{})
+	containers.Set(Login, users.Login{})
 }

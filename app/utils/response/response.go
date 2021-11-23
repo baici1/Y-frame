@@ -2,7 +2,10 @@ package response
 
 import (
 	"Y-frame/app/global/consts"
+	"Y-frame/app/utils/validator_translation"
 	"net/http"
+
+	"github.com/go-playground/validator/v10"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,11 +27,13 @@ func ReturnJson(ctx *gin.Context, httpCode int, dataCode int, msg string, data .
 			"msg":  msg,
 			"data": data,
 		})
+		return
 	}
 	ctx.JSON(httpCode, gin.H{
 		"code": dataCode,
 		"msg":  msg,
 	})
+
 }
 
 //Success
@@ -39,6 +44,7 @@ func ReturnJson(ctx *gin.Context, httpCode int, dataCode int, msg string, data .
  */
 func Success(ctx *gin.Context, msg string, data ...interface{}) {
 	ReturnJson(ctx, http.StatusOK, consts.CurdStatusOkCode, msg, data)
+	ctx.Abort()
 }
 
 //Fail
@@ -51,4 +57,37 @@ func Success(ctx *gin.Context, msg string, data ...interface{}) {
 func Fail(ctx *gin.Context, httpCode int, dataCode int, msg string) {
 	ReturnJson(ctx, httpCode, dataCode, msg)
 	ctx.Abort()
+}
+
+//ValidatorError
+/* @Description: validator 错误专门使用的返回器
+ * @param ctx
+ * @param httpCode
+ * @param dataCode
+ * @param msg
+ * @param err
+ */
+func ValidatorError(ctx *gin.Context, httpCode int, dataCode int, msg string, err error) {
+	// 获取validator.ValidationErrors类型的errors
+	errs, ok := err.(validator.ValidationErrors)
+	if !ok {
+		// 非validator.ValidationErrors类型错误直接返回
+		Fail(ctx, httpCode, dataCode, msg)
+		return
+	}
+	ctx.JSON(httpCode, gin.H{
+		"code": dataCode,
+		"msg":  msg,
+		"tips": validator_translation.RemoveTopStruct(errs.Translate(validator_translation.Trans)),
+	})
+}
+
+//ErrorsSystem
+/* @Description: 处理系统中出现的问题
+ * @param c
+ * @param msg
+ */
+func ErrorsSystem(c *gin.Context, msg string) {
+	ReturnJson(c, http.StatusInternalServerError, consts.ServerOccurredErrorCode, consts.ServerOccurredErrorMsg+msg)
+	c.Abort()
 }
