@@ -65,3 +65,12 @@ Token:
 validator:
   IsInit: 1 #是否开启 validator 错误翻译 1 代表开启 0 代表不开启
   Language: "zh" #选择语言 可选择 zh 代表中文，en 代表英语 默认为英文
+
+#验证码配置信息
+Captcha:
+  Length: 4 #验证码生成长度
+  CollectNum: 10 #当过期时候，收集的数目
+  Expiration: 60*60 #验证码生效时间
+  StdWidth: 240 #验证码图像宽度
+  StdHeight: 80 #验证码图像长度
+  Lang: "zh" #语音验证码的语言 默认中文

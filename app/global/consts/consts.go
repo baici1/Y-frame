@@ -40,4 +40,12 @@ const (
 	ValidatorPrefix              string = "Form_Validator_" //表单验证前缀
 	ValidatorParamsCheckFailCode int    = -400300
 	ValidatorParamsCheckFailMsg  string = "参数校验失败"
+	//验证码
+	CaptchaGetParamsInvalidMsg    string = "获取验证码：提交的验证码参数无效,请检查验证码ID以及文件名后缀是否完整"
+	CaptchaGetParamsInvalidCode   int    = -400350
+	CaptchaCheckParamsInvalidMsg  string = "校验验证码：提交的参数无效或者验证码已失效，请检查 【验证码ID、验证码值】或者改配置文件中的过期时间。"
+	CaptchaCheckParamsInvalidCode int    = -400351
+	CaptchaCheckParamsOk          string = "验证通过"
+	CaptchaCheckParamsFailMsg     string = "验证码错误"
+	CaptchaCheckParamsFailCode    int    = -400200
 )

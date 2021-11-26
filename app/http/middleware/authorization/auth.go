@@ -3,10 +3,13 @@ package authorization
 import (
 	"Y-frame/app/global/consts"
 	"Y-frame/app/global/variable"
+	UsersCaptcha "Y-frame/app/http/controller/captcha"
 	UsersToken "Y-frame/app/service/token"
 	"Y-frame/app/utils/response"
 	"net/http"
 	"strings"
+
+	"github.com/dchest/captcha"
 
 	"github.com/gin-gonic/gin"
 )
@@ -80,6 +83,27 @@ func RefreshToken() gin.HandlerFunc {
 		} else {
 			//token格式错误
 			response.Fail(context, http.StatusBadRequest, consts.JwtTokenFormatErrCode, consts.JwtTokenFormatErrMsg)
+		}
+	}
+}
+
+//CheckCaptchaAuth
+/* @Description: 检验验证码的中间件 （根据需求去使用）
+ * @return gin.HandlerFunc
+ */
+func CheckCaptchaAuth() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		CaptchaId := context.PostForm(UsersCaptcha.CaptchaIdKey)
+		CaptchaValue := context.PostForm(UsersCaptcha.CaptchaValueKey)
+		if CaptchaId == "" || CaptchaValue == "" {
+			response.Fail(context, http.StatusBadRequest, consts.CaptchaCheckParamsInvalidCode, consts.CaptchaCheckParamsInvalidMsg)
+			return
+		}
+		if captcha.VerifyString(CaptchaId, CaptchaValue) {
+			context.Next()
+		} else {
+			response.Fail(context, http.StatusBadRequest, consts.CaptchaCheckParamsFailCode, consts.CaptchaCheckParamsFailMsg)
+			return
 		}
 	}
 }
