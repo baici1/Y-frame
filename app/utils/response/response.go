@@ -25,7 +25,7 @@ func ReturnJson(ctx *gin.Context, httpCode int, dataCode int, msg string, data .
 		ctx.JSON(httpCode, gin.H{
 			"code": dataCode,
 			"msg":  msg,
-			"data": data,
+			"data": data[0],
 		})
 		return
 	}
@@ -43,7 +43,12 @@ func ReturnJson(ctx *gin.Context, httpCode int, dataCode int, msg string, data .
  * @param data 数据
  */
 func Success(ctx *gin.Context, msg string, data ...interface{}) {
-	ReturnJson(ctx, http.StatusOK, consts.CurdStatusOkCode, msg, data)
+	if len(data) > 0 {
+		ReturnJson(ctx, http.StatusOK, consts.CurdStatusOkCode, msg, data[0])
+	} else {
+		ReturnJson(ctx, http.StatusOK, consts.CurdStatusOkCode, msg)
+	}
+
 	ctx.Abort()
 }
 

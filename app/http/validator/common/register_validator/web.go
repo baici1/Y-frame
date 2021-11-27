@@ -7,6 +7,7 @@ import (
 
 func WebRegisterValidator() {
 	containers := container.CreateContainersFactory()
-
+	//登录
 	containers.Set(Login, users.Login{})
+	containers.Set(Register, users.Register{})
 }

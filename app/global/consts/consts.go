@@ -31,15 +31,11 @@ const (
 	JwtTokenRefreshFailCode int    = -400200
 	JwtTokenRefreshFailMsg  string = "token刷新失败，请重新登录"
 
-	//response状态码
-	CurdStatusOkCode  int    = 200 //请求成功
-	CurdStatusOkMsg   string = "请求成功"
-	CurdLoginFailCode int    = -400100
-	CurdLoginFailMsg  string = "登录失败"
 	//表单验证
 	ValidatorPrefix              string = "Form_Validator_" //表单验证前缀
 	ValidatorParamsCheckFailCode int    = -400300
 	ValidatorParamsCheckFailMsg  string = "参数校验失败"
+	ValidatorParamsToJSONFail    string = "验证器参数 json 化失败"
 	//验证码
 	CaptchaGetParamsInvalidMsg    string = "获取验证码：提交的验证码参数无效,请检查验证码ID以及文件名后缀是否完整"
 	CaptchaGetParamsInvalidCode   int    = -400350
@@ -48,4 +44,13 @@ const (
 	CaptchaCheckParamsOk          string = "验证通过"
 	CaptchaCheckParamsFailMsg     string = "验证码错误"
 	CaptchaCheckParamsFailCode    int    = -400200
+
+	//用户状态码
+	UserLoginFailCode    int    = -400100
+	UserLoginFailMsg     string = "登录失败"
+	UserRegisterFailCode int    = -400200
+	UserRegisterFailMsg  string = "注册失败"
+	//CURD常用状态码
+	CurdStatusOkCode int    = 200
+	CurdStatusOkMsg  string = "Success"
 )

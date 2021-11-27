@@ -11,9 +11,15 @@ import (
 
 //json https://sanyuesha.com/2018/05/07/go-json/
 
-/*
- * DataAddContext
- * @Description:  将验证器成员（字段）绑定到数据传输的上下文中，方便控制器进行获取
+//固定字段名 关于创建，修改，删除时间
+const (
+	created_at string = "created_at"
+	updated_at string = "updated_at"
+	deleted_at string = "deleted_at"
+)
+
+// DataAddContext
+/* @Description:  将验证器成员（字段）绑定到数据传输的上下文中，方便控制器进行获取
  * @param validatorInterface
  * @param extraAddDataPrefix
  * @param context
@@ -29,9 +35,9 @@ func DataAddContext(validatorInterface interf.ValidatorInterface, extraAddDataPr
 				}
 				// 此外给上下文追加三个键：created_at  、 updated_at  、 deleted_at ，实际根据需要自己选择获取相关键值
 				curDateTime := time.Now().Format(variable.DateFormat)
-				context.Set(extraAddDataPrefix+"created_at", curDateTime)
-				context.Set(extraAddDataPrefix+"updated_at", curDateTime)
-				context.Set(extraAddDataPrefix+"deleted_at", curDateTime)
+				context.Set(extraAddDataPrefix+created_at, curDateTime)
+				context.Set(extraAddDataPrefix+updated_at, curDateTime)
+				context.Set(extraAddDataPrefix+deleted_at, curDateTime)
 				return context
 			}
 		}
