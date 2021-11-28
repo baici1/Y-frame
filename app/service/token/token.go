@@ -78,7 +78,6 @@ func (u *userToken) RefreshToken(oldToken string) (newToken string, flag bool) {
 	} else {
 		return newToken, true
 	}
-
 }
 
 //IsEffect

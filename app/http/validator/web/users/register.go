@@ -5,7 +5,6 @@ import (
 	"Y-frame/app/http/controller/web"
 	"Y-frame/app/http/validator/core/data_transfer"
 	"Y-frame/app/utils/response"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,7 +17,7 @@ type Register struct {
 
 func (r Register) CheckParams(ctx *gin.Context) {
 	if err := ctx.ShouldBind(&r); err != nil {
-		response.ValidatorError(ctx, http.StatusBadRequest, consts.ValidatorParamsCheckFailCode, consts.ValidatorParamsCheckFailMsg, err)
+		response.ValidatorError(ctx, err)
 		return
 	}
 	extraAddBindDataContext := data_transfer.DataAddContext(r, consts.ValidatorPrefix, ctx)

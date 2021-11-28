@@ -55,11 +55,11 @@ func CheckTokenAuth() gin.HandlerFunc {
 	}
 }
 
-//RefreshToken
+//CheckIsRefreshToken
 /* @Description: 刷新token中间件
  * @return gin.HandlerFunc
  */
-func RefreshToken() gin.HandlerFunc {
+func CheckIsRefreshToken() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		headerParams := HeaderParams{}
 

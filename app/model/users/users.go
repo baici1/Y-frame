@@ -76,3 +76,41 @@ func (u *UserModel) Login(userName string, pass string) *UserModel {
 	}
 	return nil
 }
+
+//getCounts
+/* @Description: 根据名字查询用户表的条数 用于用户组
+ * @receiver u
+ * @param userName
+ * @return counts
+ */
+func (u *UserModel) getCounts(userName string) (counts int64) {
+	sqlStr := "SELECT COUNT(*) AS COUNTS FROM tb_users WHERE (user_name like ? OR real_name like ?)"
+	if _ = u.Raw(sqlStr, "%"+userName+"%", "%"+userName+"%").First(&counts); counts > 0 {
+		return
+	}
+	return 0
+}
+
+//List
+/* @Description: 模糊查询 查询用户名获取用户信息
+ * @receiver u
+ * @param userName 用户名
+ * @param limitStart  开始查询起点
+ * @param limitItems 获取的条数
+ * @return totalCounts 总的条数
+ * @return list 用户信息
+ */
+func (u *UserModel) List(userName string, limitStart, limitItems int) (totalCounts int64, list []UserModel) {
+	//获取用户条数
+	totalCounts = u.getCounts(userName)
+	if totalCounts > 0 {
+		sqlStr := `SELECT  a.id, a.user_name, a.real_name,a.avatar, a.phone, a.status,a.last_login_ip,a.remark,a.login_times,
+			DATE_FORMAT(created_at,'%Y-%m-%d %H:%i:%s')  AS created_at,	DATE_FORMAT(updated_at,'%Y-%m-%d %H:%i:%s')  AS updated_at  
+			 FROM  tb_users a WHERE  ( user_name LIKE ? OR real_name LIKE  ?) LIMIT ?,?`
+		if res := u.Raw(sqlStr, "%"+userName+"%", "%"+userName+"%", limitStart, limitItems).Find(&list); res.RowsAffected > 0 {
+			return totalCounts, list
+		}
+		return totalCounts, nil
+	}
+	return 0, nil
+}

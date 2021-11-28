@@ -7,6 +7,7 @@ import (
 	"Y-frame/app/service/auth_users"
 	UsersToken "Y-frame/app/service/token"
 	"Y-frame/app/utils/response"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -17,6 +18,8 @@ import (
 const (
 	userNameStr = "user_name"
 	passwordStr = "pass"
+	pageStr     = "page"
+	limitStr    = "limit"
 )
 
 type Users struct {
@@ -71,4 +74,29 @@ func (u *Users) Login(c *gin.Context) {
 		return
 	}
 	response.Fail(c, http.StatusBadRequest, consts.UserLoginFailCode, consts.UserLoginFailMsg)
+}
+
+//List
+/* @Description: 模糊查询 根据用户名查询用户信息
+ * @receiver u
+ * @param ctx
+ */
+func (u *Users) List(ctx *gin.Context) {
+	//获取参数 用户名，页数，条数
+	userName := ctx.GetString(consts.ValidatorPrefix + userNameStr)
+	page := ctx.GetFloat64(consts.ValidatorPrefix + pageStr)
+	limit := ctx.GetFloat64(consts.ValidatorPrefix + limitStr)
+	//开始起点
+	limitStart := (page - 1) * limit
+	//调用 model 层的 list
+	totalCounts, listData := users.CreateUsersDBFactory("").List(userName, int(limitStart), int(limit))
+	fmt.Println(totalCounts, listData)
+	if totalCounts > 0 && listData != nil {
+		response.Success(ctx, consts.CurdStatusOkMsg, gin.H{
+			"count": totalCounts,
+			"data":  listData,
+		})
+		return
+	}
+	response.Fail(ctx, http.StatusBadRequest, consts.CurdSelectFailCode, consts.CurdSelectFailMsg)
 }

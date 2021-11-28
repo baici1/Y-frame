@@ -72,17 +72,17 @@ func Fail(ctx *gin.Context, httpCode int, dataCode int, msg string) {
  * @param msg
  * @param err
  */
-func ValidatorError(ctx *gin.Context, httpCode int, dataCode int, msg string, err error) {
+func ValidatorError(ctx *gin.Context, err error) {
 	// 获取validator.ValidationErrors类型的errors
 	errs, ok := err.(validator.ValidationErrors)
 	if !ok {
 		// 非validator.ValidationErrors类型错误直接返回
-		Fail(ctx, httpCode, dataCode, msg)
+		Fail(ctx, http.StatusBadRequest, consts.ValidatorParamsCheckFailCode, consts.ValidatorParamsCheckFailMsg)
 		return
 	}
-	ctx.JSON(httpCode, gin.H{
-		"code": dataCode,
-		"msg":  msg,
+	ctx.JSON(http.StatusBadRequest, gin.H{
+		"code": consts.ValidatorParamsCheckFailCode,
+		"msg":  consts.ValidatorParamsCheckFailMsg,
 		"tips": validator_translation.RemoveTopStruct(errs.Translate(validator_translation.Trans)),
 	})
 }

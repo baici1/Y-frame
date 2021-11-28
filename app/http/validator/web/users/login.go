@@ -5,7 +5,6 @@ import (
 	"Y-frame/app/http/controller/web"
 	"Y-frame/app/http/validator/core/data_transfer"
 	"Y-frame/app/utils/response"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,7 +19,7 @@ type Login struct {
 func (l Login) CheckParams(c *gin.Context) {
 	//获取参数值，进行初步的验证规则
 	if err := c.ShouldBind(&l); err != nil {
-		response.ValidatorError(c, http.StatusBadRequest, consts.ValidatorParamsCheckFailCode, consts.ValidatorParamsCheckFailMsg, err)
+		response.ValidatorError(c, err)
 		return
 	}
 	//将参数值值绑定到context上下文中

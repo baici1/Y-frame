@@ -7,4 +7,5 @@ import "Y-frame/app/global/consts"
 const (
 	Login    string = consts.ValidatorPrefix + "Login"
 	Register string = consts.ValidatorPrefix + "Register"
+	List     string = consts.ValidatorPrefix + "List"
 )

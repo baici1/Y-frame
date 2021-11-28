@@ -3,6 +3,7 @@ package routers
 import (
 	"Y-frame/app/global/variable"
 	"Y-frame/app/http/controller/captcha"
+	"Y-frame/app/http/middleware/authorization"
 	"Y-frame/app/http/middleware/cors"
 	"Y-frame/app/http/validator/common/register_validator"
 	"Y-frame/app/http/validator/core/factory"
@@ -48,10 +49,29 @@ func InitWebRouter() *gin.Engine {
 	//创建user 登录注册路由
 	admin := router.Group("/admin")
 	{
-		//使用验证码中间件
-		//admin.Use(authorization.CheckCaptchaAuth())
-		admin.POST("/login", factory.Create(register_validator.Login))
-		admin.POST("/register", factory.Create(register_validator.Register))
+
+		//登录注册路由
+		noAuth := admin.Group("/users")
+		{
+			//使用验证码中间件
+			//noAuth.Use(authorization.CheckCaptchaAuth())
+			noAuth.POST("/login", factory.Create(register_validator.Login))
+			noAuth.POST("/register", factory.Create(register_validator.Register))
+		}
+		//刷新token
+		token := admin.Group("/token")
+		{
+			//先放这，到时候根据前端去考虑如何去刷新
+			token.Use(authorization.CheckIsRefreshToken()).POST("/refresh")
+		}
+		admin.Use(authorization.CheckTokenAuth())
+		{
+			//用户组路由
+			users := admin.Group("/users")
+			{
+				users.GET("/list", factory.Create(register_validator.List))
+			}
+		}
 	}
 
 	return router

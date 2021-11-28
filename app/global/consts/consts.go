@@ -51,6 +51,8 @@ const (
 	UserRegisterFailCode int    = -400200
 	UserRegisterFailMsg  string = "注册失败"
 	//CURD常用状态码
-	CurdStatusOkCode int    = 200
-	CurdStatusOkMsg  string = "Success"
+	CurdStatusOkCode   int    = 200
+	CurdStatusOkMsg    string = "Success"
+	CurdSelectFailCode int    = -400201 //关于查询的
+	CurdSelectFailMsg  string = "查询失败"
 )
