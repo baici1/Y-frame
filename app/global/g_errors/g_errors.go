@@ -8,6 +8,7 @@ const (
 	ErrorsContainerKeyAlreadyExists string = "该键已经注册在容器中了"
 	//验证器相关
 	ErrorsValidatorTransInitFail string = "validator的翻译器初始化错误"
+	ErrorNotAllParamsIsBlank     string = "该接口不允许所有参数都为空,请按照接口要求提交必填参数"
 	ErrorsValidatorNotExists     string = "验证器不存在"
 	//配置文件
 	ErrorsConfigInitFail      = "初始化配置文件发生错误"

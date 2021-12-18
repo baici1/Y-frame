@@ -2,8 +2,10 @@ package response
 
 import (
 	"Y-frame/app/global/consts"
+	"Y-frame/app/global/g_errors"
 	"Y-frame/app/utils/validator_translation"
 	"net/http"
+	"strings"
 
 	"github.com/go-playground/validator/v10"
 
@@ -77,14 +79,19 @@ func ValidatorError(ctx *gin.Context, err error) {
 	errs, ok := err.(validator.ValidationErrors)
 	if !ok {
 		// 非validator.ValidationErrors类型错误直接返回
-		Fail(ctx, http.StatusBadRequest, consts.ValidatorParamsCheckFailCode, consts.ValidatorParamsCheckFailMsg)
-		return
+		errStr := errs.Error()
+		// multipart:nextpart:eof 错误表示验证器需要一些参数，但是调用者没有提交任何参数
+		if strings.ReplaceAll(strings.ToLower(errStr), " ", "") == "multipart:nextpart:eof" {
+			ReturnJson(ctx, http.StatusBadRequest, consts.ValidatorParamsCheckFailCode, consts.ValidatorParamsCheckFailMsg, g_errors.ErrorNotAllParamsIsBlank)
+		} else {
+			ReturnJson(ctx, http.StatusBadRequest, consts.ValidatorParamsCheckFailCode, consts.ValidatorParamsCheckFailMsg, errStr)
+		}
+	} else {
+		tips := validator_translation.RemoveTopStruct(errs.Translate(validator_translation.Trans))
+		ReturnJson(ctx, http.StatusBadRequest, consts.ValidatorParamsCheckFailCode, consts.ValidatorParamsCheckFailMsg, tips)
 	}
-	ctx.JSON(http.StatusBadRequest, gin.H{
-		"code": consts.ValidatorParamsCheckFailCode,
-		"msg":  consts.ValidatorParamsCheckFailMsg,
-		"tips": validator_translation.RemoveTopStruct(errs.Translate(validator_translation.Trans)),
-	})
+
+	ctx.Abort()
 }
 
 //ErrorsSystem

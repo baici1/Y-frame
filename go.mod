@@ -11,6 +11,7 @@ require (
 	github.com/go-playground/universal-translator v0.17.0
 	github.com/go-playground/validator/v10 v10.4.1
 	github.com/natefinch/lumberjack v2.0.0+incompatible
+	github.com/spf13/cobra v1.2.1
 	github.com/spf13/viper v1.9.0
 	go.uber.org/zap v1.17.0
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
