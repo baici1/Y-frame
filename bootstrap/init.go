@@ -47,11 +47,11 @@ func init() {
 	// 7.雪花算法全局变量
 	variable.SnowFlake = snow_flake.CreateSnowFlakeFactory()
 	//8.全局注册 validator 错误翻译器
-	if variable.ConfigYml.GetInt("validator.IsInit") == 1 {
-		if err := validator_translation.InitTrans(variable.ConfigYml.GetString("validator.Language")); err != nil {
-			log.Fatal(g_errors.ErrorsValidatorTransInitFail + err.Error())
-		}
+	//if variable.ConfigYml.GetInt("validator.IsInit") == 1 {
+	if err := validator_translation.InitTrans(variable.ConfigYml.GetString("validator.Language")); err != nil {
+		log.Fatal(g_errors.ErrorsValidatorTransInitFail + err.Error())
 	}
+	//}
 
 	// 8.websocket Hub中心启动
 	// 9.casbin 依据配置文件设置参数(IsInit=1)初始化
