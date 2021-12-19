@@ -78,6 +78,11 @@ func InitWebRouter() *gin.Engine {
 			{
 				users.GET("/list", factory.Create(register_validator.List))
 			}
+			//上传文件
+			uploadFiles := admin.Group("/upload")
+			{
+				uploadFiles.POST("/a_file", factory.Create(register_validator.Upload))
+			}
 		}
 	}
 

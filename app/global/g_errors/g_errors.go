@@ -24,4 +24,8 @@ const (
 	ErrorsTokenInvalid      string = "无效的token"
 	ErrorsTokenMalFormed    string = "token格式不正确"
 	ErrorsTokenNotActiveYet string = "token未激活"
+	//文件上传
+	ErrorsFilesUploadReadFail string = "读取文件32字节失败，详情："
+	//snowflake
+	ErrorsSnowflakeGetIdFail string = "获取snowflake唯一ID过程发生错误"
 )

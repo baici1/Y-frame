@@ -6,7 +6,6 @@ import (
 	UsersCaptcha "Y-frame/app/http/controller/captcha"
 	UsersToken "Y-frame/app/service/token"
 	"Y-frame/app/utils/response"
-	"net/http"
 	"strings"
 
 	"github.com/dchest/captcha"
@@ -29,7 +28,7 @@ func CheckTokenAuth() gin.HandlerFunc {
 
 		//获取头部的token参数   键名：Authorization
 		if err := context.ShouldBindHeader(&headerParams); err != nil {
-			response.Fail(context, http.StatusBadRequest, consts.ValidatorParamsCheckFailCode, consts.JwtTokenMustValidMsg)
+			response.Fail(context, consts.ValidatorParamsCheckFailCode, consts.JwtTokenMustValidMsg)
 			context.Abort()
 			return
 		}
@@ -46,11 +45,11 @@ func CheckTokenAuth() gin.HandlerFunc {
 				context.Next()
 			} else {
 				//无效token
-				response.Fail(context, http.StatusBadRequest, consts.JwtTokenInvalid, consts.JwtTokenInvalidMsg)
+				response.Fail(context, consts.JwtTokenInvalid, consts.JwtTokenInvalidMsg)
 			}
 		} else {
 			//token格式错误
-			response.Fail(context, http.StatusBadRequest, consts.JwtTokenFormatErrCode, consts.JwtTokenFormatErrMsg)
+			response.Fail(context, consts.JwtTokenFormatErrCode, consts.JwtTokenFormatErrMsg)
 		}
 	}
 }
@@ -65,7 +64,7 @@ func CheckIsRefreshToken() gin.HandlerFunc {
 
 		//获取头部的token参数   键名：Authorization
 		if err := context.ShouldBindHeader(&headerParams); err != nil {
-			response.Fail(context, http.StatusBadRequest, consts.ValidatorParamsCheckFailCode, consts.JwtTokenMustValidMsg)
+			response.Fail(context, consts.ValidatorParamsCheckFailCode, consts.JwtTokenMustValidMsg)
 			context.Abort()
 			return
 		}
@@ -78,11 +77,11 @@ func CheckIsRefreshToken() gin.HandlerFunc {
 				context.Next()
 			} else {
 				//刷新失败
-				response.Fail(context, http.StatusBadRequest, consts.JwtTokenRefreshFailCode, consts.JwtTokenRefreshFailMsg)
+				response.Fail(context, consts.JwtTokenRefreshFailCode, consts.JwtTokenRefreshFailMsg)
 			}
 		} else {
 			//token格式错误
-			response.Fail(context, http.StatusBadRequest, consts.JwtTokenFormatErrCode, consts.JwtTokenFormatErrMsg)
+			response.Fail(context, consts.JwtTokenFormatErrCode, consts.JwtTokenFormatErrMsg)
 		}
 	}
 }
@@ -96,13 +95,13 @@ func CheckCaptchaAuth() gin.HandlerFunc {
 		CaptchaId := context.PostForm(UsersCaptcha.CaptchaIdKey)
 		CaptchaValue := context.PostForm(UsersCaptcha.CaptchaValueKey)
 		if CaptchaId == "" || CaptchaValue == "" {
-			response.Fail(context, http.StatusBadRequest, consts.CaptchaCheckParamsInvalidCode, consts.CaptchaCheckParamsInvalidMsg)
+			response.Fail(context, consts.CaptchaCheckParamsInvalidCode, consts.CaptchaCheckParamsInvalidMsg)
 			return
 		}
 		if captcha.VerifyString(CaptchaId, CaptchaValue) {
 			context.Next()
 		} else {
-			response.Fail(context, http.StatusBadRequest, consts.CaptchaCheckParamsFailCode, consts.CaptchaCheckParamsFailMsg)
+			response.Fail(context, consts.CaptchaCheckParamsFailCode, consts.CaptchaCheckParamsFailMsg)
 			return
 		}
 	}

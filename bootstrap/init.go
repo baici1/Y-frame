@@ -48,7 +48,7 @@ func init() {
 	variable.SnowFlake = snow_flake.CreateSnowFlakeFactory()
 	//8.全局注册 validator 错误翻译器
 	//if variable.ConfigYml.GetInt("validator.IsInit") == 1 {
-	if err := validator_translation.InitTrans(variable.ConfigYml.GetString("validator.Language")); err != nil {
+	if err := validator_translation.InitTrans("zh"); err != nil {
 		log.Fatal(g_errors.ErrorsValidatorTransInitFail + err.Error())
 	}
 	//}

@@ -57,12 +57,11 @@ func Success(ctx *gin.Context, msg string, data ...interface{}) {
 //Fail
 /* @Description:请求失败返回函数
  * @param ctx
- * @param httpCode  状态码
  * @param dataCode  自定义状态码
  * @param msg 消息
  */
-func Fail(ctx *gin.Context, httpCode int, dataCode int, msg string) {
-	ReturnJson(ctx, httpCode, dataCode, msg)
+func Fail(ctx *gin.Context, dataCode int, msg string) {
+	ReturnJson(ctx, http.StatusBadRequest, dataCode, msg)
 	ctx.Abort()
 }
 

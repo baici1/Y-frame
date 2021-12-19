@@ -19,6 +19,7 @@ type Login struct {
 func (l Login) CheckParams(c *gin.Context) {
 	//获取参数值，进行初步的验证规则
 	if err := c.ShouldBind(&l); err != nil {
+		// 将表单参数验证器出现的错误直接交给错误翻译器统一处理即可
 		response.ValidatorError(c, err)
 		return
 	}

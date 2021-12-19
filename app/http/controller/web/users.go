@@ -8,7 +8,6 @@ import (
 	UsersToken "Y-frame/app/service/token"
 	"Y-frame/app/utils/response"
 	"fmt"
-	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -39,7 +38,7 @@ func (u *Users) Register(ctx *gin.Context) {
 	if auth_users.CreateAuthUsersFactory().Register(UserName, Pass, UserIp) {
 		response.Success(ctx, consts.CurdStatusOkMsg)
 	} else {
-		response.Fail(ctx, http.StatusBadRequest, consts.UserRegisterFailCode, consts.UserRegisterFailMsg)
+		response.Fail(ctx, consts.UserRegisterFailCode, consts.UserRegisterFailMsg)
 	}
 }
 
@@ -73,7 +72,7 @@ func (u *Users) Login(c *gin.Context) {
 		}
 		return
 	}
-	response.Fail(c, http.StatusBadRequest, consts.UserLoginFailCode, consts.UserLoginFailMsg)
+	response.Fail(c, consts.UserLoginFailCode, consts.UserLoginFailMsg)
 }
 
 //List
@@ -98,5 +97,5 @@ func (u *Users) List(ctx *gin.Context) {
 		})
 		return
 	}
-	response.Fail(ctx, http.StatusBadRequest, consts.CurdSelectFailCode, consts.CurdSelectFailMsg)
+	response.Fail(ctx, consts.CurdSelectFailCode, consts.CurdSelectFailMsg)
 }

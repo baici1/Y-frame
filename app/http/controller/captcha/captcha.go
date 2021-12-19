@@ -80,7 +80,7 @@ func (c *Captcha) GetImg(ctx *gin.Context) {
 	id := file[:len(file)-len(ext)]
 	//验证参数是否获取正常
 	if ext == "" || captchaId == "" {
-		response.Fail(ctx, http.StatusBadRequest, consts.CaptchaGetParamsInvalidCode, consts.CaptchaGetParamsInvalidMsg)
+		response.Fail(ctx, consts.CaptchaGetParamsInvalidCode, consts.CaptchaGetParamsInvalidMsg)
 		return
 	}
 	//当获取到 Reload 就重新加载一个
@@ -114,7 +114,7 @@ func (c *Captcha) CheckCode(ctx *gin.Context) {
 	if captcha.VerifyString(captchaId, value) {
 		response.Success(ctx, consts.CaptchaCheckParamsOk)
 	} else {
-		response.Fail(ctx, http.StatusBadRequest, consts.CaptchaCheckParamsInvalidCode, consts.CaptchaCheckParamsInvalidMsg)
+		response.Fail(ctx, consts.CaptchaCheckParamsInvalidCode, consts.CaptchaCheckParamsInvalidMsg)
 	}
 }
 
@@ -134,7 +134,7 @@ func (c *Captcha) GetAudio(ctx *gin.Context) {
 	id := file[:len(file)-len(ext)]
 	//验证参数是否获取正常
 	if ext == "" || captchaId == "" {
-		response.Fail(ctx, http.StatusBadRequest, consts.CaptchaGetParamsInvalidCode, consts.CaptchaGetParamsInvalidMsg)
+		response.Fail(ctx, consts.CaptchaGetParamsInvalidCode, consts.CaptchaGetParamsInvalidMsg)
 		return
 	}
 	ctx.Header("Cache-Control", "no-cache, no-store, must-revalidate")
