@@ -47,6 +47,18 @@ Gormv2:
       traceWarnStr: "[traceWarn] %s %s [%.3fms] [rows:%v] %s\n"
       traceErrStr: "[traceErr] %s %s [%.3fms] [rows:%v] %s\n"
 
+# redis
+Redis:
+  Host: "127.0.0.1"
+  Port: 6379
+  Auth: ""
+  MaxIdle: 10
+  MaxActive: 1000
+  IdleTimeout: 60
+  IndexDb: 1
+  ConnFailRetryTimes: 3    #从连接池获取连接失败，最大重试次数
+  ReConnectInterval: 1     # 从连接池获取连接失败，每次重试之间间隔的秒数
+
 SnowFlake:
   SnowFlakeMachineId: 2               #如果本项目同时部署在多台机器，并且需要同时使用该算法，请为每一台机器设置不同的ID，区间范围: [0,1023]
 

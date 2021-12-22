@@ -28,4 +28,8 @@ const (
 	ErrorsFilesUploadReadFail string = "读取文件32字节失败，详情："
 	//snowflake
 	ErrorsSnowflakeGetIdFail string = "获取snowflake唯一ID过程发生错误"
+	//redis
+	ErrorsRedisInitConnFail string = "初始化redis连接池失败"
+	ErrorsRedisAuthFail     string = "Redis Auth 鉴权失败，密码错误"
+	ErrorsRedisGetConnFail  string = "Redis 从连接池获取一个连接失败，超过最大重试次数"
 )
