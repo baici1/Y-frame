@@ -56,7 +56,7 @@ func (u *Users) Login(c *gin.Context) {
 	//进入model层
 	userModel := userModelFact.Login(UserName, Pass)
 	if userModel != nil {
-		expireAt := variable.ConfigYml.GetInt64("Token.JwtTokenCreatedExpireAt")
+		expireAt := variable.Configs.Token.JwtTokenCreatedExpireAt
 		//生成token
 		userTokenFactory := UsersToken.CreateUserToken()
 		if token, err := userTokenFactory.GenerateToken(userModel.UserName, userModel.Phone, userModel.Id, expireAt); err == nil {

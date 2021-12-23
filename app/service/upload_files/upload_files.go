@@ -25,7 +25,7 @@ func UploadAFile(ctx *gin.Context, savePath string) (flag bool, finalSavePath st
 	//获取保存文件的详细目录
 	newSavePath := generateYearMonthPath(savePath)
 	//  1.获取上传的文件名(参数验证器已经验证完成了第一步错误，这里简化)
-	file, _ := ctx.FormFile(variable.ConfigYml.GetString("FileUploadSetting.UploadFileField"))
+	file, _ := ctx.FormFile(variable.Configs.File.UploadFileField)
 	//2.将文件名进行加密，保证后台存储不会发生重复
 	if id := variable.SnowFlake.GetId(); id > 0 {
 		//组合：雪花id + 名字

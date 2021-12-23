@@ -22,9 +22,9 @@ const (
 
 //获取配置文件中的设置
 var (
-	Width  int    = variable.ConfigYml.GetInt("Captcha.StdWidth")
-	Height int    = variable.ConfigYml.GetInt("Captcha.StdHeight")
-	Lang   string = variable.ConfigYml.GetString("Captcha.Lang")
+	Width  int    = variable.Configs.Captcha.StdWidth
+	Height int    = variable.Configs.Captcha.StdHeight
+	Lang   string = variable.Configs.Captcha.Lang
 )
 
 type Captcha struct {
@@ -37,9 +37,9 @@ type Captcha struct {
 func init() {
 	//对存储器进行自定义设置
 	//设置一次清理过期验证码的数量
-	collectNum := variable.ConfigYml.GetInt("Captcha.CollectNum")
+	collectNum := variable.Configs.Captcha.CollectNum
 	//过期时间
-	expiration := variable.ConfigYml.GetDuration("Captcha.Expiration")
+	expiration := variable.Configs.Captcha.Expiration
 	// 返回一个新的标准内存存储器
 	s := captcha.NewMemoryStore(collectNum, expiration)
 	//设置一个新的存储器
@@ -53,7 +53,7 @@ func init() {
  */
 func (c *Captcha) GenerateId(ctx *gin.Context) {
 	//获取验证码验证数字长度
-	var length = variable.ConfigYml.GetInt("Captcha.Length")
+	var length = variable.Configs.Captcha.Length
 	//自定义验证码数字长度
 	captchaId := captcha.NewLen(length)
 	//提供相关信息

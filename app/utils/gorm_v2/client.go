@@ -4,7 +4,6 @@ import (
 	"Y-frame/app/global/g_errors"
 	"Y-frame/app/global/variable"
 	"errors"
-	"fmt"
 	"strings"
 	"time"
 
@@ -21,7 +20,7 @@ import (
 //创建一个mysql客户端，这里不设置读写分离，根据场景再去加。
 func GetOneMysqlClient() (*gorm.DB, error) {
 	//获取数据库类型
-	sqlType := variable.ConfigYml.GetString("Gormv2.UseDbType")
+	sqlType := variable.Configs.Gormv2.UseDbType
 	////设置是否读取分离
 	//readDbIsOpen:=variable.ConfigYml.Viper.GetInt("Gormv2." + sqlType + ".IsOpenReadDb")
 	return GetSqlDriver(sqlType)
@@ -60,11 +59,11 @@ func GetSqlDriver(sqlType string) (*gorm.DB, error) {
 		//连接池里面的连接最大空闲时长。
 		rawDb.SetConnMaxIdleTime(time.Second * 30)
 		//连接不活动时的最大生存时间(秒)
-		rawDb.SetConnMaxLifetime(variable.ConfigYml.GetDuration("Gormv2."+sqlType+".Write.SetConnMaxLifetime") * time.Second)
+		rawDb.SetConnMaxLifetime(variable.Configs.Gormv2.Mysql.Write.SetConnMaxLifetime * time.Second)
 		//设置与数据库建立连接的最大数目。
-		rawDb.SetMaxIdleConns(variable.ConfigYml.GetInt("Gormv2." + sqlType + ".Write.SetMaxIdleConns"))
+		rawDb.SetMaxIdleConns(variable.Configs.Gormv2.Mysql.Write.SetMaxIdleConns)
 		//设置连接池中的最大闲置连接数。
-		rawDb.SetMaxOpenConns(variable.ConfigYml.GetInt("Gormv2." + sqlType + ".Write.SetMaxOpenConns"))
+		rawDb.SetMaxOpenConns(variable.Configs.Gormv2.Mysql.Write.SetMaxOpenConns)
 		return gormDb, nil
 	}
 }
@@ -85,18 +84,10 @@ func getDbDialector(sqlType string) (gorm.Dialector, error) {
 
 //根据配置参数生成数据库驱动 dsn
 func getDsn(sqlType string) string {
-	readWrite := "Write"
-	//获取配置文件的数据库的参数
-	Host := variable.ConfigYml.GetString("Gormv2." + sqlType + "." + readWrite + ".Host")
-	DataBase := variable.ConfigYml.GetString("Gormv2." + sqlType + "." + readWrite + ".DataBase")
-	Port := variable.ConfigYml.GetInt("Gormv2." + sqlType + "." + readWrite + ".Port")
-	User := variable.ConfigYml.GetString("Gormv2." + sqlType + "." + readWrite + ".User")
-	Pass := variable.ConfigYml.GetString("Gormv2." + sqlType + "." + readWrite + ".Pass")
-	Charset := variable.ConfigYml.GetString("Gormv2." + sqlType + "." + readWrite + ".Charset")
 	//根据数据库进行选择配置dsn 因为常用是mysql 所以只有一个
 	switch strings.ToLower(sqlType) {
 	case "mysql":
-		return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&parseTime=True&loc=Local", User, Pass, Host, Port, DataBase, Charset)
+		return variable.Configs.Gormv2.Mysql.Dsn()
 	default:
 		return ""
 	}
@@ -104,22 +95,11 @@ func getDsn(sqlType string) string {
 
 //创建自定义日志模块，对 gorm 日志进行拦截、
 func redefineLog(sqlType string) gormLog.Interface {
-	isOwnLogger := variable.ConfigYml.GetBool("Gormv2." + sqlType + ".Log.IsOwnLogger")
-	infoStr := variable.ConfigYml.GetString("Gormv2." + sqlType + ".Log.infoStr")
-	warnStr := variable.ConfigYml.GetString("Gormv2." + sqlType + ".Log.warnStr")
-	errStr := variable.ConfigYml.GetString("Gormv2." + sqlType + ".Log.errStr")
-	traceStr := variable.ConfigYml.GetString("Gormv2." + sqlType + ".Log.traceStr")
-	traceWarnStr := variable.ConfigYml.GetString("Gormv2." + sqlType + ".Log.traceWarnStr")
-	traceErrStr := variable.ConfigYml.GetString("Gormv2." + sqlType + ".Log.traceErrStr")
-	if isOwnLogger {
-		return createCustomGormLog(sqlType,
-			SetInfoStrFormat(infoStr),
-			SetWarnStrFormat(warnStr),
-			SetErrStrFormat(errStr),
-			SetTraceStrFormat(traceStr),
-			SetTracWarnStrFormat(traceWarnStr),
-			SetTracErrStrFormat(traceErrStr))
-
-	}
-	return createCustomGormLog(sqlType)
+	return createCustomGormLog(sqlType,
+		SetInfoStrFormat("[info] %s\n"),
+		SetWarnStrFormat("[warn] %s\n"),
+		SetErrStrFormat("[error] %s\n"),
+		SetTraceStrFormat("[traceStr] %s [%.3fms] [rows:%v] %s\n"),
+		SetTracWarnStrFormat("[traceWarn] %s %s [%.3fms] [rows:%v] %s\n"),
+		SetTracErrStrFormat("[traceErr] %s %s [%.3fms] [rows:%v] %s\n"))
 }

@@ -16,7 +16,7 @@ import (
 func InitWebRouter() *gin.Engine {
 	var router *gin.Engine
 	//判断当前程序模式处理相关日志
-	if variable.ConfigYml.GetBool("AppDebug") {
+	if variable.Configs.Zaps.AppDebug {
 		router = gin.Default()
 		// 调试模式，开启 pprof 包，便于开发阶段分析程序性能
 		//pprof.Register(router)
@@ -34,7 +34,7 @@ func InitWebRouter() *gin.Engine {
 		// 1.生产模式(release) 和开发模式的变化主要是禁用 gin 记录接口访问日志，
 		// 2.go服务就必须使用nginx作为前置代理服务，这样也方便实现负载均衡
 		// 3.如果程序发生 panic 等异常使用自定义的 panic 恢复中间件拦截、记录到日志
-		gin_release.ReleaseRouter()
+		router = gin_release.ReleaseRouter()
 	}
 	//开启跨域
 	router.Use(cors.Next())

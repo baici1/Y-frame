@@ -26,7 +26,7 @@ func createCustomGormLog(sqlType string, options ...Options) gormLog.Interface {
 	//logger中的gormLog.Config的配置
 	logConf := gormLog.Config{
 		// 慢 SQL 阈值
-		SlowThreshold: time.Second * variable.ConfigYml.GetDuration("Gormv2."+sqlType+"."+".SlowThreshold"),
+		SlowThreshold: time.Second * variable.Configs.Gormv2.Mysql.SlowThreshold,
 		// 禁用彩色打印
 		Colorful: false,
 		// 忽略ErrRecordNotFound（记录未找到）错误

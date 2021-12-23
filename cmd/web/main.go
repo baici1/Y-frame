@@ -9,5 +9,5 @@ import (
 //这里存放管理系统的路由 （后台管理系统）
 func main() {
 	router := routers.InitWebRouter()
-	_ = router.Run(variable.ConfigYml.GetString("HttpServer.Web.Port"))
+	_ = router.Run(variable.Configs.System.Web)
 }

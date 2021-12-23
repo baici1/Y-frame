@@ -11,6 +11,7 @@ import (
 	"Y-frame/app/utils/validator_translation"
 	"Y-frame/app/utils/yml_config"
 	"Y-frame/app/utils/zap_factory"
+	"fmt"
 	"os"
 
 	"log"
@@ -33,11 +34,12 @@ func init() {
 	// 4.启动针对配置文件(config.yml、gorm_v2.yml)变化的监听， 配置文件操作指针，初始化为全局变量
 	variable.ConfigYml = yml_config.CreateYamlFactory()
 	variable.ConfigYml.ConfigFileChangeListen()
+	fmt.Println(variable.Configs)
 	// config>gorm_v2.yml 启动文件变化监听事件
 	// 5.初始化全局日志句柄，并载入日志钩子处理函数
 	variable.ZapLog = zap_factory.CreateZapFactory(sys_log_hook.ZapLogHandler)
 	// 6.根据配置初始化 gorm mysql 全局 *gorm.Db
-	if variable.ConfigYml.GetInt("Gormv2.Mysql.IsInitGlobalGormMysql") == 1 {
+	if variable.Configs.Gormv2.Mysql.IsInitGlobalGormMysql == 1 {
 		if db, err := gorm_v2.GetOneMysqlClient(); err != nil {
 			log.Fatal(g_errors.ErrorsGormInitFail + err.Error())
 		} else {

@@ -39,7 +39,7 @@ func CheckTokenAuth() gin.HandlerFunc {
 			claims, code := UsersToken.CreateUserToken().IsEffect(token[1])
 			if code == consts.JwtTokenOK {
 				//开始解析token
-				key := variable.ConfigYml.GetString("Token.BindContextKeyName")
+				key := variable.Configs.Token.BindContextKeyName
 				//将token绑定到上下文
 				context.Set(key, claims)
 				context.Next()

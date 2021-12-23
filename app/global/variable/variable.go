@@ -4,6 +4,7 @@ import (
 	"Y-frame/app/global/g_errors"
 	"Y-frame/app/utils/snow_flake/snow_flake_interf"
 	"Y-frame/app/utils/yml_config/ymlconfig_interf"
+	"Y-frame/configs"
 	"log"
 	"os"
 
@@ -26,6 +27,8 @@ var (
 	GormDbMysql *gorm.DB //Mysql
 	//雪花算法
 	SnowFlake snow_flake_interf.InterfaceSnowFlake
+	//全局配置变量
+	Configs configs.Server
 )
 
 func init() {

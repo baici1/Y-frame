@@ -16,7 +16,7 @@ type Upload struct {
 
 func (u Upload) UploadAFile(ctx *gin.Context) {
 	//保存文件路径
-	savePath := variable.BasePath + variable.ConfigYml.GetString("FileUploadSetting.UploadFileSavePath")
+	savePath := variable.BasePath + variable.Configs.File.UploadFileSavePath
 	if flag, finalSavePath := upload_files.UploadAFile(ctx, savePath); flag {
 		//这里需要根据需求存储存储文件的路径到数据库中
 		response.Success(ctx, consts.CurdStatusOkMsg, gin.H{

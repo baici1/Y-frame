@@ -23,7 +23,7 @@ func UseDbConn(sqlType string) *gorm.DB {
 	//你可以选择自己填入类型或者通过配置文件进行获取
 	sqlType = strings.Trim(sqlType, " ")
 	if sqlType == "" {
-		sqlType = variable.ConfigYml.GetString("Gormv2.UseDbType")
+		sqlType = variable.Configs.Gormv2.UseDbType
 	}
 	switch strings.ToLower(sqlType) {
 	case "mysql":

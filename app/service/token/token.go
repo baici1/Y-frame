@@ -15,7 +15,7 @@ import (
  */
 func CreateUserToken() *userToken {
 	return &userToken{
-		userJWT: g_jwt.CreateGJWT(variable.ConfigYml.GetString("Token.JwtTokenSignKey")),
+		userJWT: g_jwt.CreateGJWT(variable.Configs.Token.JwtTokenSignKey),
 	}
 }
 
@@ -72,7 +72,7 @@ func (u *userToken) ParseToken(tokenString string) (g_jwt.CustomClaims, error) {
  * @return flag
  */
 func (u *userToken) RefreshToken(oldToken string) (newToken string, flag bool) {
-	extraAddSeconds := variable.ConfigYml.GetInt64("Token.JwtTokenRefreshExpireAt")
+	extraAddSeconds := variable.Configs.Token.JwtTokenRefreshExpireAt
 	if newToken, err := u.userJWT.RefreshJWT(oldToken, extraAddSeconds); err != nil {
 		return "", false
 	} else {

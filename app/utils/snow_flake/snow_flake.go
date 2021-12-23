@@ -12,7 +12,7 @@ import (
 func CreateSnowFlakeFactory() snow_flake_interf.InterfaceSnowFlake {
 	return &snowflake{
 		timestamp: 0,
-		machineId: variable.ConfigYml.GetInt64("SnowFlake.SnowFlakeMachineId"),
+		machineId: variable.Configs.SnowFlake.SnowFlakeMachineId,
 		sequence:  0,
 	}
 }
