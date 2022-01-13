@@ -6,6 +6,7 @@ import (
 	UsersCaptcha "Y-frame/app/http/controller/captcha"
 	UsersToken "Y-frame/app/service/token"
 	"Y-frame/app/utils/response"
+	"fmt"
 	"strings"
 
 	"github.com/dchest/captcha"
@@ -104,5 +105,23 @@ func CheckCaptchaAuth() gin.HandlerFunc {
 			response.Fail(context, consts.CaptchaCheckParamsFailCode, consts.CaptchaCheckParamsFailMsg)
 			return
 		}
+	}
+}
+
+// CheckCasbinAuth casbin检查用户对应的角色权限是否允许访问接口
+func CheckCasbinAuth() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		requestUrl := c.Request.URL.Path
+		method := c.Request.Method
+		role := "41"
+		fmt.Println(role, requestUrl, method)
+		isPass, err := variable.Enforcer.Enforce(role, requestUrl, method)
+		if err != nil {
+			response.Fail(c, consts.CasbinErrorCode, consts.CasbinErrorMsg)
+		} else if !isPass {
+			fmt.Println(isPass)
+			response.Fail(c, consts.CasbinNoPassCode, consts.CasbinNoPassMsg)
+		}
+		c.Next()
 	}
 }

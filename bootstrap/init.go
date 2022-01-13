@@ -6,6 +6,7 @@ import (
 	"Y-frame/app/global/variable"
 	"Y-frame/app/http/validator/common/register_validator"
 	"Y-frame/app/service/sys_log_hook"
+	"Y-frame/app/utils/casbin_v2"
 	"Y-frame/app/utils/gorm_v2"
 	"Y-frame/app/utils/snow_flake"
 	"Y-frame/app/utils/validator_translation"
@@ -54,7 +55,9 @@ func init() {
 		log.Fatal(g_errors.ErrorsValidatorTransInitFail + err.Error())
 	}
 	//}
-
-	// 8.websocket Hub中心启动
 	// 9.casbin 依据配置文件设置参数(IsInit=1)初始化
+	var err error
+	if variable.Enforcer, err = casbin_v2.InitCasbinEnforcer(); err != nil {
+		log.Fatal(err.Error())
+	}
 }

@@ -8,6 +8,8 @@ import (
 	"log"
 	"os"
 
+	"github.com/casbin/casbin/v2"
+
 	"gorm.io/gorm"
 
 	"go.uber.org/zap"
@@ -29,6 +31,8 @@ var (
 	SnowFlake snow_flake_interf.InterfaceSnowFlake
 	//全局配置变量
 	Configs configs.Server
+	//casbin 全局操作指针
+	Enforcer *casbin.SyncedEnforcer
 )
 
 func init() {

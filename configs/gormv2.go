@@ -41,5 +41,5 @@ type Log struct {
 }
 
 func (m *Mysql) Dsn() string {
-	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&parseTime=True&loc=Local", m.Write.User, m.Write.Pass, m.Write.Host, m.Write.Port, m.Write.DataBase, m.Write.Charset)
+	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&parseTime=True", m.Write.User, m.Write.Pass, m.Write.Host, m.Write.Port, m.Write.DataBase, m.Write.Charset)
 }

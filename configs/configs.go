@@ -9,4 +9,5 @@ type Server struct {
 	File      FileUploadSetting `json:"file" yaml:"FileUploadSetting" mapstructure:"FileUploadSetting"`
 	Captcha   Captcha           `json:"captcha" yaml:"Captcha" mapstructure:"Captcha"`
 	SnowFlake SnowFlake         `json:"SnowFlake" yaml:"SnowFlake" mapstructure:"SnowFlake"`
+	Casbin    Casbin            `json:"Casbin" yaml:"Casbin" mapstructure:"Casbin" `
 }

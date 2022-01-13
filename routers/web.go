@@ -62,6 +62,8 @@ func InitWebRouter() *gin.Engine {
 		{
 			//使用验证码中间件
 			//noAuth.Use(authorization.CheckCaptchaAuth())
+			//使用casbin
+			//noAuth.Use(authorization.CheckCasbinAuth())
 			noAuth.POST("/login", factory.Create(register_validator.Login))
 			noAuth.POST("/register", factory.Create(register_validator.Register))
 		}

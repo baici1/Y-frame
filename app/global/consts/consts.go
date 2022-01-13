@@ -62,4 +62,9 @@ const (
 	FilesUploadMimeTypeFailMsg     string = "文件类型不允许"
 	FilesUploadFailCode            int    = -400250
 	FilesUploadFailMsg             string = "文件上传失败, 获取上传文件发生错误!"
+	//权限检测
+	CasbinErrorCode  int    = -400300
+	CasbinErrorMsg   string = "权限检测出错"
+	CasbinNoPassCode int    = -400301
+	CasbinNoPassMsg  string = "权限检测不通过"
 )

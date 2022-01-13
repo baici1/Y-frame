@@ -32,4 +32,7 @@ const (
 	ErrorsRedisInitConnFail string = "初始化redis连接池失败"
 	ErrorsRedisAuthFail     string = "Redis Auth 鉴权失败，密码错误"
 	ErrorsRedisGetConnFail  string = "Redis 从连接池获取一个连接失败，超过最大重试次数"
+	//casbin
+	ErrorCasbinCreateAdaptFail    string = "casbin NewAdapter 发生错误："
+	ErrorCasbinCreateEnforcerFail string = "casbin NewEnforcer 发生错误："
 )

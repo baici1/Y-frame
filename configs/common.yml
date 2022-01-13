@@ -93,3 +93,8 @@ FileUploadSetting:
     - "text/plain; charset=utf-8"     #txt log json等文本文件
     - "video/mp4"      #视频文件，例如：mp4
     - "audio/mpeg"     #音频文件，例如: mp3
+
+# 管理 casbin
+Casbin:
+  ConfPosition: "configs/rbac_model.conf" #conf文件的位置
+  AutoLoadPolicySeconds: 5 # 扫描数据库策略的频率(单位：秒)
